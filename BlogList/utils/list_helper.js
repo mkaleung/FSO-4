@@ -22,7 +22,28 @@ const favoriteBlog = (blogs) => {
   return blogs[favorite]
 }
 
+const mostBlogs = (blogs) => {
+  let dict = {}
+
+  for (i = 0; i < blogs.length; i++) {
+    if (dict[blogs[i].author]) {
+      dict[blogs[i].author] += 1
+    } else {
+      dict[blogs[i].author] = 1
+    }
+  }
+
+  const author = Object.keys(dict).reduce((a, b) => dict[a] > dict[b] ? a : b)
+  const answer = {
+    "author": author,
+    "blogs" : dict[author]
+  }
+  
+  return answer
+}
+
 module.exports = {
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
