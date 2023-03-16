@@ -12,15 +12,20 @@ beforeEach(async () => {
     let blogObject = new Blog(blog)
     await blogObject.save()
   }
-})
+}, 10000)
 
 
 test('blogs are returned as json', async () => {
   await api
     .get('/api/blogs')
     .expect(200)
-    .expect('Content-Type', /application\/json/)
-})
+    .expect('Content-Type', /application\/json/)  
+}, 10000)
+
+test('initial length of blogs is correct', async () => {
+  const blogs = await api.get('/api/blogs')
+  expect(blogs.body).toHaveLength(helper.initialBlogs.length)
+}, 10000)
 
 afterAll(async () => {
   await mongoose.connection.close()
