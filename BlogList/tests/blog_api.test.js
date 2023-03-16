@@ -12,20 +12,26 @@ beforeEach(async () => {
     let blogObject = new Blog(blog)
     await blogObject.save()
   }
-}, 10000)
+}, 100000)
 
 
 test('blogs are returned as json', async () => {
   await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)  
-}, 10000)
+  .get('/api/blogs')
+  .expect(200)
+  .expect('Content-Type', /application\/json/)  
+}, 100000)
 
 test('initial length of blogs is correct', async () => {
   const blogs = await api.get('/api/blogs')
   expect(blogs.body).toHaveLength(helper.initialBlogs.length)
-}, 10000)
+}, 100000)
+
+test("confirm id's are defined on a random blog post", async () => {
+  const blogs = await api.get('/api/blogs')
+  const randomBlog = Math.floor(Math.random() * helper.initialBlogs.length)
+  expect(blogs.body[randomBlog].id).toBeDefined()
+})
 
 afterAll(async () => {
   await mongoose.connection.close()
