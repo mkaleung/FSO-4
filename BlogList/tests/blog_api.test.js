@@ -33,7 +33,6 @@ test("confirm id's are defined on a random blog post", async () => {
   expect(blogs.body[randomBlog].id).toBeDefined()
 })
 
-// confirm post creates new blog post
 test('confirm HTTP POST creates new blog post', async () => {
   await api
   .post('/api/blogs')
@@ -48,7 +47,20 @@ test('confirm HTTP POST creates new blog post', async () => {
   expect(blogsContent).toContain(helper.singleBlogPost.content)
 })
 
-// - post increased by one
+test('confirm likes default to 0 if not specified', async () => {
+  let postWithoutLikes = Object.assign({}, helper.singleBlogPost)
+  delete postWithoutLikes.likes
+
+  await api
+  .post('/api/blogs')
+  .send(postWithoutLikes)
+  .expect(201)
+  .expect('Content-Type', /application\/json/)
+  
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
+})
+// - post increased by one 
 // - or verify content of blog post saved
 
 afterAll(async () => {
