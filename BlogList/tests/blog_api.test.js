@@ -33,6 +33,10 @@ test("confirm id's are defined on a random blog post", async () => {
   expect(blogs.body[randomBlog].id).toBeDefined()
 })
 
+// confirm post creates new blog post
+// - post increased by one
+// - or verify content of blog post saved
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
