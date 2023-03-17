@@ -34,6 +34,20 @@ test("confirm id's are defined on a random blog post", async () => {
 })
 
 // confirm post creates new blog post
+test('confirm HTTP POST creates new blog post', async () => {
+  await api
+  .post('/api/blogs')
+  .send(helper.singleBlogPost)
+  .expect(201)
+  .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const blogsContent = blogsAtEnd.map(blog => blog.content)
+  expect(blogsContent).toContain(helper.singleBlogPost.content)
+})
+
 // - post increased by one
 // - or verify content of blog post saved
 
