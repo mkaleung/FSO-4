@@ -2,8 +2,12 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  # "title": "This is a new post four",
+  "title": "This is a new post four",
   "author": "AL",
   "url": "http://a.b.com",
   "likes": 2020
 }
+
+###
+DELETE http://localhost:3003/api/blogs/5a422ba71b54a676234d17fb
+Content-Type: application/json
