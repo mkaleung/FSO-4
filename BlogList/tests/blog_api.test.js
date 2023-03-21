@@ -65,14 +65,24 @@ test('confirm likes default to 0 if not specified', async () => {
 test('confirm posts without title or url returns status 400', async () => {
   let postWithoutTitle = Object.assign({}, helper.singleBlogPost)
   delete postWithoutTitle.title
+  console.log(postWithoutTitle)
+  let postWithoutUrl = Object.assign({}, helper.singleBlogPost)
+  delete postWithoutUrl.url
 
   await api
   .post('/api/blogs')
   .send(postWithoutTitle)
   .expect(400)
 
+  await api
+  .post('/api/blogs')
+  .send(postWithoutUrl)
+  .expect(400)
+
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+
+
 })
 
 afterAll(async () => {
