@@ -61,7 +61,6 @@ test('confirm likes default to 0 if not specified', async () => {
   expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
 })
 
-// test to confirm 400 status if title or url missing
 test('confirm posts without title or url returns status 400', async () => {
   let postWithoutTitle = Object.assign({}, helper.singleBlogPost)
   delete postWithoutTitle.title
@@ -81,8 +80,26 @@ test('confirm posts without title or url returns status 400', async () => {
 
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+})
 
+test('confirm posts with specific id can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
 
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  console.log(blogsAtEnd)
+
+  expect(blogsAtEnd).toHaveLength(
+    helper.initialBlogs.length - 1
+  )
+
+  const ids = blogsAtEnd.map(r => r.id)
+
+  expect(ids).not.toContain(blogToDelete.id)
 })
 
 afterAll(async () => {
