@@ -209,7 +209,6 @@ describe('when there is initially one user in db', () => {
   })
 })
 
-
 afterAll(async () => {
   await mongoose.connection.close()
 })

@@ -5,7 +5,8 @@ Content-Type: application/json
   "title": "This is a new post four",
   "author": "AL",
   "url": "http://a.b.com",
-  "likes": 2020
+  "likes": 2020,
+  "userId": "641b4e68e915305604fa739b"
 }
 
 ###
